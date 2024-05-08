@@ -3,7 +3,7 @@
 
 int main(void){
     char str1[] = "Hello,World!";
-    char str2[] = "MJQQT,BTWQI!";
-    printf("%s %s\n", ceasarCipher(str1,5), ceasarCipher(str2, 5, 'd'));
+    char str2[] = "ROVVY,GYBVN!";
+    printf("%s %s\n", ceasarCipher(str1,10), ceasarCipher(str2, 10, 'd'));
     return 0;
 }

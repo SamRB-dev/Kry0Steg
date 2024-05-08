@@ -46,16 +46,18 @@ int getAlphaIndex(char character){
     @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
 */
 char *ceasarCipher(char plainText[], int Key = 5, char mode = 'e'){
-	int length = strlen(plainText);
-	for (int index = 0; index < length; index++){
-		if(isalpha(plainText[index])){
-			char character = toupper(plainText[index]);
-			int substitutionIndex = (mode == 'e') ? ((getAlphaIndex(character) + Key) % 26) : 
-			((getAlphaIndex(character) - Key) < 0) ? ((getAlphaIndex(character) - Key) + 26) : 
-			((getAlphaIndex(character) - Key) % 26);
-			plainText[index] = ALPHABETS[substitutionIndex];
+	if (mode == 'e' || mode == 'd') {
+		int length = strlen(plainText);
+		for (int index = 0; index < length; index++){
+			if(isalpha(plainText[index])){
+				char character = toupper(plainText[index]);
+				int substitutionIndex = (mode == 'e') ? ((getAlphaIndex(character) + Key) % 26) : 
+				((getAlphaIndex(character) - Key) < 0) ? ((getAlphaIndex(character) - Key) + 26) : 
+				((getAlphaIndex(character) - Key) % 26);
+				plainText[index] = ALPHABETS[substitutionIndex];
+			}
+			else plainText[index] = plainText[index];
 		}
-		else plainText[index] = plainText[index];
 	}
 	return plainText;
 }
