@@ -9,7 +9,7 @@ git clone <project URL>
 ```
 got checkout -b <branch-name>
 ```
-4. Stage the changes. 
+4. Make changes on the code and Stage the changes. 
 ```
 git add .
 ```
@@ -36,4 +36,8 @@ git checkout main
 ```
 git pull
 ```
-3. 
+3. Switch to your working branch.
+```
+git checkout <branch-name>
+```
+### Repeat step 4 to 7 from initial process.
