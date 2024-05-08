@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 /* Constants~ */ 
 const char ALPHABETS[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
@@ -44,12 +45,14 @@ int getAlphaIndex(char character){
     @author: SamRB-dev
     @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
 */
-char *ceasarEncrypt(char plainText[], int Key = 5){
+char *ceasarCipher(char plainText[], int Key = 5, char mode = 'e'){
 	int length = strlen(plainText);
 	for (int index = 0; index < length; index++){
 		if(isalpha(plainText[index])){
 			char character = toupper(plainText[index]);
-			int substitutionIndex = (getAlphaIndex(character) + Key) % 26;
+			int substitutionIndex = (mode == 'e') ? ((getAlphaIndex(character) + Key) % 26) : 
+			((getAlphaIndex(character) - Key) < 0) ? ((getAlphaIndex(character) - Key) + 26) : 
+			((getAlphaIndex(character) - Key) % 26);
 			plainText[index] = ALPHABETS[substitutionIndex];
 		}
 		else plainText[index] = plainText[index];

@@ -5,9 +5,9 @@
 ```
 git clone https://github.com/SamRB-dev/Kry0Steg.git
 ```
-3. Determine what changes you are making and create a local branch. Make sure your branch name is meaningful. For instance, say you are working on a header file called "Ciphers.h" for the project. Then your branch name should be "/path/Cipher.h - <dev-name>". 
+3. Determine what changes you are making and create a local branch. Make sure your branch name is meaningful. For instance, say you are working on a header file called "Ciphers.h" for the project. Then your branch name should be "/path/Cipher.h-<dev-name>". 
 ```
-got checkout -b <branch-name>
+git checkout -b <branch-name>
 ```
 4. Make changes on the code and Stage the changes. 
 ```
