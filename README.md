@@ -1,6 +1,16 @@
  # ToDo
- - General Ciphers (From/To)
-    - Ceasar cipher
-    - Rot13
-    - Xor
-    - Text to hex/Bin
+ - General Ciphers, Type: Header
+    - Ceasar cipher - Complete
+    - Rot13 - Turja
+    - Atbash Cipher 
+    - Monoalpabetic substituion cipher
+
+
+- Encoders, Type: Header
+   - Xor
+   - text <=> bin/hex
+   - Base64
+
+- Brute Force, Type: Header
+
+# TBA
