@@ -4,6 +4,6 @@
 int main(void){
     char str1[] = "Hello,World!";
     char str2[] = "ROVVY,GYBVN!";
-    printf("%s %s\n", ceasarCipher(str1,10), ceasarCipher(str2, 10, 'd'));
+    printf("%s %s\n", caesarCipher(str1,10), caesarCipher(str2, 10, 'd'));
     return 0;
 }

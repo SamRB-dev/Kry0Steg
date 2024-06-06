@@ -45,7 +45,7 @@ int getAlphaIndex(char character){
     @author: SamRB-dev
     @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
 */
-char *ceasarCipher(char plainText[], int Key = 5, char mode = 'e'){
+char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
 	if (mode == 'e' || mode == 'd') {
 		int length = strlen(plainText);
 		for (int index = 0; index < length; index++){
