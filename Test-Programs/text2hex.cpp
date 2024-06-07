@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <string>
-void text2hex(std::string plainText){
+std::string text2hex(std::string plainText){
     int length = plainText.length();
-    const char stringBuffer[length * 3];
+    std::string stringBuffer;
     for (int idx = 0;idx < length;idx++){
-        sprintf(stringBuffer, "%X", plainText[idx]);
+        char tempBuffer[5];
+        sprintf(tempBuffer, "%X ", plainText[idx]);
+        stringBuffer += tempBuffer;
     }
-    std::string test = "Test + " + stringBuffer;
-    printf("%s", test);
+    return stringBuffer;
 }
 
 int main() {
-    text2hex("ABC");
+    std::string t2h = text2hex("ABC");
+    printf("%s\n", t2h.c_str());
 	return 0;
 }
