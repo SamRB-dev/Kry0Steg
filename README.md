@@ -4,7 +4,7 @@
     - Ceasar cipher - Complete
     - Rot13 - done
     - Atbash Cipher - done
-    - Affine
+    - Affine - Done
     - Playfair
    - Transposition ciphers
    - Stream
@@ -20,4 +20,6 @@
    - Null cipher (Text steg)
    - Image Steg
 
-
+# Dependencies
+- gtkmm 4.0
+- crypto++

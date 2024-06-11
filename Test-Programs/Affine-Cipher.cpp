@@ -1,5 +1,7 @@
+#include <cstdlib>
 #include <stdio.h>
 #include <ctype.h>
+#include <math.h>
 #include <string>
 #include <numeric>
 
@@ -24,8 +26,8 @@ std::string AffineCipherEncrypt(std::string plainText, int key_1 = 5, int key_2 
             cipherText += plainText[idx];
         else {
             char plainChar = toupper(plainText[idx]);
-            int chidx = getAlphaIndex(plainChar);
-            int cipherIndex = ((key_1 * chidx) + key_2) % 26;
+            int charIdx = getAlphaIndex(plainChar);
+            int cipherIndex = ((key_1 * charIdx) + key_2) % 26;
             cipherText += ALPHABETS[cipherIndex];
         }
     }
@@ -35,21 +37,40 @@ std::string AffineCipherEncrypt(std::string plainText, int key_1 = 5, int key_2 
 
 std::string AffineCipherDecrypt(std::string cipherText, int key_1 = 5, int key_2 = 8){
     int length = cipherText.length();
+    int modular_inverse = -1;
     std::string plainText = "";
-    for(int idx = 0; idx < length; idx++){
-        if (!isalpha(cipherText[idx]))
-            plainText += cipherText[idx];
-        else {
-            char cipherChar = toupper(cipherText[idx]);
-            int chidx = getAlphaIndex(cipherChar);
-            gcd(key_1, )
-            plainText += ALPHABETS[cipherIndex];
+    // Check if key_1 & 26 are coprime (GCD = 1)
+    if (std::gcd(key_1, 26) == 1) {
+        // Find modular multiplacative inverse
+        int mod_key_1 = key_1 % 26;
+        for(int iter = 1; iter < 26; iter++){
+            if (((mod_key_1 * iter) % 26) == 1){
+                modular_inverse = iter;
+                break;
+            }
         }
     }
-    return plainText;
+    
+    // printf("%d\n", modular_inverse);
+    if (modular_inverse != -1){
+        for (int idx = 0; idx < length; idx++){
+            if (!isalpha(cipherText[idx]))
+                plainText += cipherText[idx];
+            else {
+                char cipheredChar = toupper(cipherText[idx]);
+                int charIdx = getAlphaIndex(cipheredChar);
+                // Decryption Equation
+                int plainIndex = (modular_inverse * abs((charIdx - key_2 + 26))) % 26;
+                plainText += ALPHABETS[plainIndex];
+            }
+        }
+        return plainText;
+    } else
+        return "Decryption Not Possible";
 }
 
 int main(void) {
-    AffineCipherEncrypt("Hello,World");
+    printf("%s\n",AffineCipherEncrypt("Hello,World").c_str());
+    printf("%s\n",AffineCipherDecrypt("RCLLA,OAPLX").c_str());
     return 0;
 }

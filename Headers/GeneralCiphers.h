@@ -1,10 +1,10 @@
 /*******************************************************************
-* @Copyright          : Copyright 2024, SamRB-dev Turja Barua
+* @Copyright          : Copyright 2024, SamRB-dev
 * @File Name          : GeneralCiphers.h
 * @Description        : A C/C++ header file containing functions to
                         to handle general cryptographic ciphers. 
 * @Version            : 1.0
-* @Github             : 
+* @Github             : https://github.com/SamRB-dev/Kry0Steg/blob/main/Headers/GeneralCiphers.h
 * @License            : CC-BY-NC        
 /******************************************************************/ 
 
@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include <string>
 
 /* Constants~ */ 
 const char ALPHABETS[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
@@ -37,15 +38,15 @@ int getAlphaIndex(char character){
 }
 
 /* Core Functions~ */
-/*
+char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
+	/*
     @params: string plainText, int Key, default value 5 (C++ feature)
     @number_of_parameters: 2
     @return_type: pointer -> string
     @returns: encrypted text.
     @author: SamRB-dev
     @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
-*/
-char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
+	*/
 	if (mode == 'e' || mode == 'd') {
 		int length = strlen(plainText);
 		for (int index = 0; index < length; index++){
@@ -61,3 +62,4 @@ char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
 	}
 	return plainText;
 }
+
