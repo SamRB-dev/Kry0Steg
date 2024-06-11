@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <string>
+#include <numeric>
 
 /* Constants~ */ 
 const char ALPHABETS[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
@@ -63,3 +64,74 @@ char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
 	return plainText;
 }
 
+std::string atbashCipher(std::string plainText = "Hello,World") {
+	/*
+    @params: string plainText, default value Hello,World (C++ feature)
+    @number_of_parameters: 1
+    @return_type: pointer -> string
+    @returns: encrypted / decrypted text.
+    @author: 
+    @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
+	*/
+	std::string cipherText = "";
+    int strLen = plainText.length();
+    for(int idx = 0; idx < strLen; idx++){
+        if (!isalpha(plainText[idx])) 
+            cipherText += plainText[idx];
+        else {
+            char plainChar = toupper(plainText[idx]);
+            cipherText += 'Z' - (plainChar - 'A');
+        }
+    }
+    return cipherText;
+}
+
+std::string AffineCipherEncrypt(std::string plainText = "Hello,World", int key_1 = 5, int key_2 = 8){
+    int length = plainText.length();
+    std::string cipherText = "";
+    for(int idx = 0; idx < length; idx++){
+        if (!isalpha(plainText[idx]))
+            cipherText += plainText[idx];
+        else {
+            char plainChar = toupper(plainText[idx]);
+            int charIdx = getAlphaIndex(plainChar);
+            int cipherIndex = ((key_1 * charIdx) + key_2) % 26;
+            cipherText += ALPHABETS[cipherIndex];
+        }
+    }
+    return cipherText;
+}
+
+std::string AffineCipherDecrypt(std::string cipherText, int key_1 = 5, int key_2 = 8){
+    int length = cipherText.length();
+    int modular_inverse = -1;
+    std::string plainText = "";
+    // Check if key_1 & 26 are coprime (GCD = 1)
+    if (std::gcd(key_1, 26) == 1) {
+        // Find modular multiplacative inverse
+        int mod_key_1 = key_1 % 26;
+        for(int iter = 1; iter < 26; iter++){
+            if (((mod_key_1 * iter) % 26) == 1){
+                modular_inverse = iter;
+                break;
+            }
+        }
+    }
+
+    // printf("%d\n", modular_inverse);
+    if (modular_inverse != -1){
+        for (int idx = 0; idx < length; idx++){
+            if (!isalpha(cipherText[idx]))
+                plainText += cipherText[idx];
+            else {
+                char cipheredChar = toupper(cipherText[idx]);
+                int charIdx = getAlphaIndex(cipheredChar);
+                // Decryption Equation
+                int plainIndex = (modular_inverse * abs((charIdx - key_2 + 26))) % 26;
+                plainText += ALPHABETS[plainIndex];
+            }
+        }
+        return plainText;
+    } else
+        return "Operation Not Possible";
+}

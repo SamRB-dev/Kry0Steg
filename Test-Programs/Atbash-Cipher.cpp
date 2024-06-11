@@ -19,5 +19,6 @@ std::string atbash(std::string plainText){
 int main(void){
     std::string str = atbash("Hello,WOrld");
     printf("%s\n", str.c_str());
+    printf("%s\n", atbash("SVOOL,DLIOW").c_str());
     return 0;
 }

@@ -15,6 +15,8 @@
    - text <=> bin/hex
    - Base64
 
+- Hashing, Type: Header - Done
+
 - Brute Force, Type: Header
 - Steganography
    - Null cipher (Text steg)
@@ -22,4 +24,4 @@
 
 # Dependencies
 - gtkmm 4.0
-- crypto++
+- openssl

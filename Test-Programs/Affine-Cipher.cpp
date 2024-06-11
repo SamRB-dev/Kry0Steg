@@ -34,7 +34,6 @@ std::string AffineCipherEncrypt(std::string plainText, int key_1 = 5, int key_2 
     return cipherText;
 }
 
-
 std::string AffineCipherDecrypt(std::string cipherText, int key_1 = 5, int key_2 = 8){
     int length = cipherText.length();
     int modular_inverse = -1;

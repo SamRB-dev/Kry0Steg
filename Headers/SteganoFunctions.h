@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <string>
 #include <ctype.h>
+#include <string>
 
+/* ToDo > Second approach: Use regex to find index of all space and extract data from first order. */
 std::string stego_nullCipher_firstOrder(std::string message) {
     int length = message.length();
     std::string hiddenText = "";
@@ -20,9 +21,4 @@ std::string stego_nullCipher_firstOrder(std::string message) {
 		}
     }
     return hiddenText;
-}
-
-int main(void) {
-    printf("%s\n",stego_nullCipher_firstOrder("4 score and 7 years ago").c_str());
-    return 0;
 }
