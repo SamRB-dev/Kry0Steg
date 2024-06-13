@@ -1,4 +1,5 @@
- # ToDo
+# Original Repo: [SamRB-dev/Kry0Steg]()
+# ToDo
  - General Symmetric Ciphers, Type: Header
    - Substituion ciphers
     - Ceasar cipher - Complete
@@ -23,8 +24,16 @@
    - Image Steg
 
 # Dependencies
-- gtkmm 4.0
-- openssl
+### gtkmm-4.0
+#### Manjaro/Arch Installation
+```bash
+sudo pacman -Syu gtkmm-4.0
+```
+### OpenSSL
+#### Manjaro/Arch Installation
+```bash
+sudo pacman -Syu openssl
+```
 
 # Linux compilation with gcc
 ## With Gtkmm 
@@ -34,4 +43,6 @@ g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0`
 
 # Cross Compilation - mingw-w64 TBA
 
-# Current State
+# Reference
+- [Gtkmm Examples](https://github.com/gammasoft71/Examples_Gtkmm)
+- [Programming with gtkmm 4](https://gnome.pages.gitlab.gnome.org/gtkmm-documentation/index.html)
