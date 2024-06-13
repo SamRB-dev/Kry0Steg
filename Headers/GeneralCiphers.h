@@ -8,9 +8,11 @@
 * @License            : CC-BY-NC        
 /******************************************************************/ 
 
+#ifndef GeneralCiphers_h
+#define GeneralCiphers_h
+
 // Header files
 #include <stdio.h>
-#include <string.h>
 #include <ctype.h>
 #include <math.h>
 #include <string>
@@ -39,7 +41,7 @@ int getAlphaIndex(char character){
 }
 
 /* Core Functions~ */
-char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
+std::string caesarCipher(std:: string plainText, int Key = 5, char mode = 'e'){
 	/*
     @params: string plainText, int Key, default value 5 (C++ feature)
     @number_of_parameters: 2
@@ -49,7 +51,7 @@ char *caesarCipher(char plainText[], int Key = 5, char mode = 'e'){
     @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
 	*/
 	if (mode == 'e' || mode == 'd') {
-		int length = strlen(plainText);
+		int length = plainText.length();
 		for (int index = 0; index < length; index++){
 			if(isalpha(plainText[index])){
 				char character = toupper(plainText[index]);
@@ -135,3 +137,5 @@ std::string AffineCipherDecrypt(std::string cipherText, int key_1 = 5, int key_2
     } else
         return "Operation Not Possible";
 }
+
+#endif

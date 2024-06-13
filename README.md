@@ -25,3 +25,13 @@
 # Dependencies
 - gtkmm 4.0
 - openssl
+
+# Linux compilation with gcc
+## With Gtkmm 
+```
+g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0`
+```
+
+# Cross Compilation - mingw-w64 TBA
+
+# Current State
