@@ -1,3 +1,4 @@
+#include <gtkmm-4.0/gtkmm/grid.h>
 #include <gtkmm-4.0/gtkmm/application.h>
 #include <gtkmm-4.0/gtkmm/box.h>
 #include <gtkmm-4.0/gtkmm/button.h>
@@ -10,12 +11,11 @@
 #include <gtkmm-4.0/gtkmm/textview.h>
 #include <gtkmm-4.0/gtkmm/textbuffer.h>
 #include <gtkmm-4.0/gtkmm/spinbutton.h>
-
-
-
+#include <string>
+#include <utility>
 
 /* Custom Headers */
-#include "Headers/GeneralCiphers.h"
+#include "include/GeneralCiphers.h"
 
 class MyWindow: public Gtk::Window {
     public:
@@ -24,10 +24,23 @@ class MyWindow: public Gtk::Window {
 
     protected:
         /*Functions for handling signals*/
+        // page functions
         void caesar_page_click();
-        void goToMenuButton_click();
+        void rot13_page_click();
+        void atbash_page_click();
+        void affine_page_click();
+
+        // Button operations
         void caesar_encrypt_click();
         void caesar_decrypt_click();
+        void rot13_encrypt_click();
+        void rot13_decrypt_click();
+        void atbash_magic_click();
+        void affine_encrypt_click();
+        void affine_decrypt_click();
+
+        // universals
+        void MenuButton_click();
 
         /* Widgets */
         // Box & grid
@@ -46,6 +59,11 @@ class MyWindow: public Gtk::Window {
         Gtk::Grid grid_4;
         Gtk::Box caesarCipherPage; // Cipher Page with I/O
         Gtk::Grid caesarGrid;
+        Gtk::Box rot13CipherPage; // ROT13 page
+        Gtk::Grid rot13Grid;
+        Gtk::Box atbashCipherPage; // Atbash page
+        Gtk::Box affineCipherPage; // Affine
+        Gtk::Grid affineGrid;
 
         // Labels
         Gtk::Label childBox_1_title; // menu
@@ -55,6 +73,14 @@ class MyWindow: public Gtk::Window {
         Gtk::Label caesarCipherPage_Input_Label; // Caesar page
         Gtk::Label caesarCipherPage_Output_Label;
         Gtk::Label caesarCipherPage_Key_Label;
+        Gtk::Label rot13CipherPage_Input_Label; // rot13 page
+        Gtk::Label rot13CipherPage_Output_Label;
+        Gtk::Label atbashCipherPage_Input_Label; // Atbash
+        Gtk::Label atbashCipherPage_Output_Label;
+        Gtk::Label affineCipherPage_Input_Label; // Affine
+        Gtk::Label affineCipherPage_Output_Label;
+        Gtk::Label affineCipherPage_Key_1_Label;
+        Gtk::Label affineCipherPage_Key_2_Label;
 
         // Buttons
         Gtk::Button caesarCipher; // Section 1
@@ -67,21 +93,36 @@ class MyWindow: public Gtk::Window {
         Gtk::Button text2Hex; // s3
         Gtk::Button nullCipher; // s4
 
-        Gtk::Button CipherPage_Encrypt;
-        Gtk::Button CipherPage_Decrypt;
-        Gtk::Button goToMenuButton; // Common
+        Gtk::Button CaesarCipherPage_Encrypt;
+        Gtk::Button CaesarCipherPage_Decrypt;
+        Gtk::Button Rot13CipherPage_Encrypt;
+        Gtk::Button Rot13CipherPage_Decrypt;
+        Gtk::Button AtbashMagic;
+        Gtk::Button AffineCipherPage_Encrypt;
+        Gtk::Button AffineCipherPage_Decrypt;
+        Gtk::Button CaesarCipherPage_MenuButton;
+        Gtk::Button Rot13CipherPage_MenuButton;
+        Gtk::Button AtbashCipherPage_MenuButton;
+        Gtk::Button AffineCipherPage_MenuButton;
 
-        // Textviews, Entry & buffers
-        Gtk::TextView inputView;
-        Gtk::TextView outputView;
+        // Textviews, Entry, SpinButton & buffers
+        Gtk::TextView CaesarCipherInputView;
+        Gtk::TextView CaesarCipherOutputView;
+        Gtk::TextView Rot13CipherInputView;
+        Gtk::TextView Rot13CipherOutputView;
+        Gtk::TextView AtbashCipherInputView;
+        Gtk::TextView AtbashCIpherOutputView;
+        Gtk::TextView AffineCipherInputView;
+        Gtk::TextView AffineCipherOutputView;
         Glib::RefPtr<Gtk::TextBuffer> inputBuffer;
         Glib::RefPtr<Gtk::TextBuffer> outputBuffer;
-        Gtk::SpinButton cipherKeyInput;
+        Gtk::SpinButton CaesarCipherKeyInput;
+        Gtk::SpinButton AffineCipherKeyInput_1;
+        Gtk::SpinButton AffineCipherKeyInput_2;
 };
 
 MyWindow::MyWindow(): 
     mainPageBox(Gtk::Orientation::VERTICAL), 
-    goToMenuButton("Menu"),
 
     /*Main Menu*/
     mainMenu(Gtk::Orientation::VERTICAL),
@@ -110,11 +151,40 @@ MyWindow::MyWindow():
 
     /*Caesar's Cipher Page*/
     caesarCipherPage(Gtk::Orientation::VERTICAL),
-    CipherPage_Encrypt("Encrypt"),
-    CipherPage_Decrypt("Decrypt"),
+    CaesarCipherPage_Encrypt("Encrypt"),
+    CaesarCipherPage_Decrypt("Decrypt"),
     caesarCipherPage_Input_Label("Enter Plain Text or Encrypted Text"),
     caesarCipherPage_Output_Label("Generated Output"),
-    caesarCipherPage_Key_Label("Enter Key [Default 5]")
+    caesarCipherPage_Key_Label("Enter Key [Default 5]"),
+    CaesarCipherPage_MenuButton("Menu"),
+
+    /*ROT13 Page*/
+    rot13CipherPage(Gtk::Orientation::VERTICAL),
+    Rot13CipherPage_Encrypt("Encrypt"),
+    Rot13CipherPage_Decrypt("Decrypt"),
+    rot13CipherPage_Input_Label("Enter Plain Text or Encrypted Text"),
+    rot13CipherPage_Output_Label("Generate Ouput"),
+    Rot13CipherPage_MenuButton("Menu"),
+
+    /*Atbash Page*/
+    atbashCipherPage(Gtk::Orientation::VERTICAL),
+    AtbashMagic("Atbash Magic"),
+    atbashCipherPage_Input_Label("Enter Plain Text or Encrypted Text"),
+    atbashCipherPage_Output_Label("Generated Output"),
+    AtbashCipherPage_MenuButton("Menu"),
+
+    /*Affine Page*/
+    affineCipherPage(Gtk::Orientation::VERTICAL),
+    AffineCipherPage_Encrypt("Encrypt"),
+    AffineCipherPage_Decrypt("Decrypt"),
+    affineCipherPage_Input_Label("Enter Plain Text or Encrypted Text"),
+    affineCipherPage_Output_Label("Generate Output"),
+    AffineCipherPage_MenuButton("Menu"),
+    affineCipherPage_Key_1_Label("Key A"),
+    affineCipherPage_Key_2_Label("Key B")
+    /*Note: In GTK, widgets can be attached to one container at a time which 
+    means components from one frame/page/container might not work in another
+    container. - https://docs.gtk.org/gtk3/method.Container.add.html*/
     {
     set_title("Kry0Steg GUI");
     set_default_size(600, 600);
@@ -125,7 +195,7 @@ MyWindow::MyWindow():
     mainPageBox.set_spacing(15);
 
     /*Main Menu*/
-    mainMenu.set_spacing(25);
+    mainMenu.set_spacing(25); // Space between widgets
     childBox_1.set_spacing(15);
     childBox_2.set_spacing(15);
     childBox_3.set_spacing(15);
@@ -133,7 +203,7 @@ MyWindow::MyWindow():
 
     grid.set_row_spacing(15);
     grid.set_column_spacing(15);
-    grid.set_column_homogeneous(true);
+    grid.set_column_homogeneous(true); 
     grid.set_row_homogeneous(true);
 
     grid_2.set_row_spacing(15);
@@ -149,10 +219,26 @@ MyWindow::MyWindow():
 
     caesarGrid.set_row_spacing(15);
     caesarGrid.set_column_spacing(15);
+    rot13Grid.set_row_spacing(15);
+    rot13Grid.set_column_spacing(15);
+    affineGrid.set_column_spacing(15);
+    affineGrid.set_row_spacing(15);
 
     /*Caesar Cipher Page*/
     caesarCipherPage.set_spacing(15);
     caesarCipherPage.set_margin(45);
+
+    /*Rot13 page*/
+    rot13CipherPage.set_spacing(15);
+    rot13CipherPage.set_margin(45);
+
+    /*Atbash Page*/
+    atbashCipherPage.set_spacing(15);
+    atbashCipherPage.set_margin(45);
+
+    /*Affine Page*/
+    affineCipherPage.set_spacing(15);
+    affineCipherPage.set_margin(45);
 
     // Alignemnt 
     mainPageBox.set_halign(Gtk::Align::BASELINE_CENTER);
@@ -164,6 +250,8 @@ MyWindow::MyWindow():
     grid_3.set_halign(Gtk::Align::CENTER);
     grid_4.set_halign(Gtk::Align::CENTER);
     caesarGrid.set_halign(Gtk::Align::CENTER);
+    rot13Grid.set_halign(Gtk::Align::CENTER);
+    affineGrid.set_halign(Gtk::Align::CENTER);
 
     // Attach and align widgets on the grid
     grid.attach(caesarCipher, 3,0);
@@ -175,8 +263,12 @@ MyWindow::MyWindow():
     grid_2.attach(sha256Hash, 8,0);
     grid_3.attach(text2Hex,4,0);
     grid_4.attach(nullCipher, 4,0);
-    caesarGrid.attach(CipherPage_Encrypt, 2,1);
-    caesarGrid.attach(CipherPage_Decrypt, 4,1);
+    caesarGrid.attach(CaesarCipherPage_Encrypt, 2,1);
+    caesarGrid.attach(CaesarCipherPage_Decrypt, 4,1);
+    rot13Grid.attach(Rot13CipherPage_Encrypt, 2,1);
+    rot13Grid.attach(Rot13CipherPage_Decrypt, 4,1);
+    affineGrid.attach(AffineCipherPage_Encrypt, 2, 1);
+    affineGrid.attach(AffineCipherPage_Decrypt, 4, 1);
 
     // Button customization
     caesarCipher.set_size_request(20,45);
@@ -188,10 +280,15 @@ MyWindow::MyWindow():
     // sha256Hash.set_size_request(50,70);
     text2Hex.set_size_request(50,70);
     nullCipher.set_size_request(50,70);
-    CipherPage_Encrypt.set_size_request(50,70);
-    CipherPage_Decrypt.set_size_request(50,70);
-    goToMenuButton.set_size_request(30,30);
-    
+    CaesarCipherPage_Encrypt.set_size_request(50,70);
+    CaesarCipherPage_Decrypt.set_size_request(50,70);
+    Rot13CipherPage_Encrypt.set_size_request(50, 70);
+    Rot13CipherPage_Decrypt.set_size_request(50, 70);
+    AffineCipherPage_Encrypt.set_size_request(50, 70);
+    AffineCipherPage_Decrypt.set_size_request(50, 70);
+    CaesarCipherPage_MenuButton.set_size_request(30,30);
+    AtbashMagic.set_size_request(50, 70);
+
     // caesarCipher.set_hexpand(false);
     // rot13Cipher.set_hexpand(false);
     // atbashCipher.set_hexpand(false);
@@ -211,14 +308,29 @@ MyWindow::MyWindow():
     // Textviews
     inputBuffer = Gtk::TextBuffer::create();
     outputBuffer = Gtk::TextBuffer::create();
-    inputView.set_buffer(inputBuffer);
-    outputView.set_buffer(outputBuffer);
-    inputView.set_size_request(250, 100);
-    outputView.set_size_request(250, 100);
+    CaesarCipherInputView.set_buffer(inputBuffer);
+    CaesarCipherOutputView.set_buffer(outputBuffer);
+    Rot13CipherInputView.set_buffer(inputBuffer);
+    Rot13CipherOutputView.set_buffer(outputBuffer);
+    AtbashCipherInputView.set_buffer(inputBuffer);
+    AtbashCIpherOutputView.set_buffer(outputBuffer);
+    AffineCipherInputView.set_buffer(inputBuffer);
+    AffineCipherOutputView.set_buffer(outputBuffer);
+
+    CaesarCipherInputView.set_size_request(250, 100);
+    CaesarCipherOutputView.set_size_request(250, 100);
+    Rot13CipherInputView.set_size_request(250, 100);
+    Rot13CipherOutputView.set_size_request(250, 100);
+    AtbashCipherInputView.set_size_request(250, 100);
+    AtbashCIpherOutputView.set_size_request(250, 100);
+    AffineCipherInputView.set_size_request(250, 100);
+    AffineCipherOutputView.set_size_request(250,100);
 
     // SpinButton
-    cipherKeyInput.set_adjustment(Gtk::Adjustment::create(5,0,25)); 
+    CaesarCipherKeyInput.set_adjustment(Gtk::Adjustment::create(5,0,25)); 
         // adjusts spin buttons numeric range from 0 to 25 with defualt being 5
+    AffineCipherKeyInput_1.set_adjustment(Gtk::Adjustment::create(5,0,25));
+    AffineCipherKeyInput_2.set_adjustment(Gtk::Adjustment::create(5,0,25));
 
     /* Append widgets to child container */
     childBox_1.append(childBox_1_title);
@@ -231,13 +343,38 @@ MyWindow::MyWindow():
     childBox_4.append(grid_4);
     // Caesar Cipher Page
     caesarCipherPage.append(caesarCipherPage_Input_Label);
-    caesarCipherPage.append(inputView);
+    caesarCipherPage.append(CaesarCipherInputView);
     caesarCipherPage.append(caesarCipherPage_Key_Label);
-    caesarCipherPage.append(cipherKeyInput);
+    caesarCipherPage.append(CaesarCipherKeyInput);
     caesarCipherPage.append(caesarGrid);
     caesarCipherPage.append(caesarCipherPage_Output_Label);
-    caesarCipherPage.append(outputView);
-    caesarCipherPage.append(goToMenuButton);
+    caesarCipherPage.append(CaesarCipherOutputView);
+    caesarCipherPage.append(CaesarCipherPage_MenuButton);    
+    // Rot13 page
+    rot13CipherPage.append(rot13CipherPage_Input_Label);
+    rot13CipherPage.append(Rot13CipherInputView);
+    rot13CipherPage.append(rot13Grid);
+    rot13CipherPage.append(rot13CipherPage_Output_Label);
+    rot13CipherPage.append(Rot13CipherOutputView);
+    rot13CipherPage.append(Rot13CipherPage_MenuButton);
+    // Atbash
+    atbashCipherPage.append(atbashCipherPage_Input_Label);
+    atbashCipherPage.append(AtbashCipherInputView);
+    atbashCipherPage.append(AtbashMagic);
+    atbashCipherPage.append(atbashCipherPage_Output_Label);
+    atbashCipherPage.append(AtbashCIpherOutputView);
+    atbashCipherPage.append(AtbashCipherPage_MenuButton);
+    // Affine
+    affineCipherPage.append(affineCipherPage_Input_Label);
+    affineCipherPage.append(AffineCipherInputView);
+    affineCipherPage.append(affineCipherPage_Key_1_Label);
+    affineCipherPage.append(AffineCipherKeyInput_1);
+    affineCipherPage.append(affineCipherPage_Key_2_Label);
+    affineCipherPage.append(AffineCipherKeyInput_2);
+    affineCipherPage.append(affineGrid);
+    affineCipherPage.append(AffineCipherOutputView);
+    affineCipherPage.append(AffineCipherPage_MenuButton);
+
 
     // Append child container to main containers
     // mainPageBox.append(childBox_1);
@@ -250,13 +387,30 @@ MyWindow::MyWindow():
     mainPageBox.append(stackSwitch);
     pageStack.add(mainMenu, "menu", "Menu");
     pageStack.add(caesarCipherPage, "page1", "Caesar Cipher");
+    pageStack.add(rot13CipherPage, "page2", "ROT13");
+    pageStack.add(atbashCipherPage, "page3", "Atbash");
+    pageStack.add(affineCipherPage, "page4", "Affine");
     set_child(mainPageBox);
 
-    // Connecting Signals
+    /* Connecting Signals */ 
+    // Page Switching
     caesarCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_page_click));
-    goToMenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::goToMenuButton_click));
-    CipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_encrypt_click));
-    CipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_decrypt_click));
+    rot13Cipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::rot13_page_click));
+    atbashCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::atbash_page_click));
+    affineCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_page_click));
+
+    CaesarCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    Rot13CipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    AtbashCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    AffineCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    // Button press event handling
+    CaesarCipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_encrypt_click));
+    CaesarCipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_decrypt_click));
+    Rot13CipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::rot13_encrypt_click));
+    Rot13CipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::rot13_decrypt_click));
+    AtbashMagic.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::atbash_magic_click));
+    AffineCipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_encrypt_click));
+    AffineCipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_decrypt_click));
 }
 
 /* Signal Hanlders */ 
@@ -265,7 +419,19 @@ void MyWindow::caesar_page_click(){
     pageStack.set_visible_child("page1");
 }
 
-void MyWindow::goToMenuButton_click(){
+void MyWindow::rot13_page_click(){
+    pageStack.set_visible_child("page2");
+}
+
+void MyWindow::atbash_page_click(){
+    pageStack.set_visible_child("page3");
+}
+
+void MyWindow::affine_page_click(){
+    pageStack.set_visible_child("page4");
+}
+
+void MyWindow::MenuButton_click(){
     pageStack.set_visible_child("menu");
 }
 
@@ -273,7 +439,7 @@ void MyWindow::goToMenuButton_click(){
 void MyWindow::caesar_encrypt_click(){
     Glib::ustring inputStr = inputBuffer->get_text();
     std::string inputRawStr = inputStr.raw();
-    int cipherKey = cipherKeyInput.get_value_as_int(); // For SpinButton 
+    int cipherKey = CaesarCipherKeyInput.get_value_as_int(); // For SpinButton 
     std::string cipheredText = GeneralCiphers::caesarCipher(inputRawStr, cipherKey, 'e');
     outputBuffer->set_text(cipheredText);
 }
@@ -281,11 +447,49 @@ void MyWindow::caesar_encrypt_click(){
 void MyWindow::caesar_decrypt_click(){
     Glib::ustring inputStr = inputBuffer->get_text();
     std::string inputRawStr = inputStr.raw();
-    int cipherKey = cipherKeyInput.get_value_as_int(); // Ref: Line 224
+    int cipherKey = CaesarCipherKeyInput.get_value_as_int(); // Ref: Line 224
     std::string plainText = GeneralCiphers::caesarCipher(inputRawStr, cipherKey, 'd');
     outputBuffer->set_text(plainText);
 }
 
+void MyWindow::rot13_encrypt_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string cipherText = GeneralCiphers::caesarCipher(inputRawStr, 13, 'e');
+    outputBuffer->set_text(cipherText);
+}
+
+void MyWindow::rot13_decrypt_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string plainText = GeneralCiphers::caesarCipher(inputRawStr, 13, 'd');
+    outputBuffer->set_text(plainText);
+}
+
+void MyWindow::atbash_magic_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string magicText = GeneralCiphers::atbashCipher(inputRawStr);
+    outputBuffer->set_text(magicText);
+}
+
+void MyWindow::affine_encrypt_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    int cipherKeyA = AffineCipherKeyInput_1.get_value_as_int();
+    int cipherKeyB = AffineCipherKeyInput_2.get_value_as_int();
+    std::string cipherText = GeneralCiphers::AffineCipherEncrypt(inputRawStr, cipherKeyA, cipherKeyB);
+    outputBuffer->set_text(cipherText);
+}
+
+void MyWindow::affine_decrypt_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    int cipherKeyA = AffineCipherKeyInput_1.get_value_as_int();
+    int cipherKeyB = AffineCipherKeyInput_2.get_value_as_int();
+    std::string plainText = GeneralCiphers::AffineCipherDecrypt(inputRawStr, cipherKeyA, cipherKeyB);
+    outputBuffer->set_text(plainText);
+}
 // Entry Point
 int main(int argc, char *argv[]){
     auto app = Gtk::Application::create("org.gtkmm.kry0steg");

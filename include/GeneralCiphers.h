@@ -43,7 +43,7 @@ namespace GeneralCiphers {
         /*
         @params: string plainText, int Key, default value 5 (C++ feature)
         @number_of_parameters: 2
-        @return_type: pointer -> string
+        @return_type: string
         @returns: encrypted text.
         @author: SamRB-dev
         @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
@@ -68,7 +68,7 @@ namespace GeneralCiphers {
         /*
         @params: string plainText, default value Hello,World (C++ feature)
         @number_of_parameters: 1
-        @return_type: pointer -> string
+        @return_type: string
         @returns: encrypted / decrypted text.
         @author: 
         @reference: https://www.geeksforgeeks.org/caesar-cipher-in-cryptography/
