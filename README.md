@@ -41,7 +41,11 @@ sudo pacman -Syu openssl
 g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0`
 ```
 
-# Cross Compilation - mingw-w64 TBA
+# Cross Compilation - mingw-w64 
+## MSYS2
+- pacman -Syuu
+- pacman -S mingw-w64-x86_64-toolchain base-devel
+- pacman -S mingw-w64-x86_64-{gtkmm-4.0,openssl}
 
 # Reference
 - [Gtkmm Examples](https://github.com/gammasoft71/Examples_Gtkmm)
