@@ -1,27 +1,22 @@
 # Original Repo: [SamRB-dev/Kry0Steg](https://github.com/SamRB-dev/Kry0Steg)
-# ToDo
- - General Symmetric Ciphers, Type: Header
+# Current Features
+ - General Symmetric Ciphers
    - Substituion ciphers
-    - Ceasar cipher - Complete
+    - Ceasar cipher
     - Rot13 - done
-    - Atbash Cipher - done
+    - Atbash Cipher 
     - Affine - Done
-    - Playfair
-   - Transposition ciphers
-   - Stream
-   - Block
 
 - Encoders, Type: Header
-   - Xor
-   - text <=> bin/hex
-   - Base64
+   - text => hex
+- Hashing
+   - MD5
+   - SHA1
+   - SHA256
 
-- Hashing, Type: Header - Done
-
-- Brute Force, Type: Header
 - Steganography
    - Null cipher (Text steg)
-   - Image Steg
+   - Image Steg (Coming soon)
 
 # Dependencies
 ### gtkmm-4.0
@@ -37,11 +32,16 @@ sudo pacman -Syu openssl
 
 # Linux compilation with gcc
 ## With Gtkmm 
+```bash
+g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0` -l ssl -l crypto
 ```
-g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0`
+or execute make file
+
+```bash
+make
 ```
 
-# Cross Compilation - mingw-w64 
+# Cross Compilation - mingw-w64 - TBA
 ## MSYS2
 - pacman -Syuu
 - pacman -S mingw-w64-x86_64-toolchain base-devel
