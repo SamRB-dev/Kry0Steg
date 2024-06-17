@@ -3,7 +3,7 @@
 #include <string>
 
 /* ToDo > Second approach: Use regex to find index of all space and extract data from first order. */
-namespace StaganoFunctions {
+namespace SteganoFunctions {
     std::string stego_nullCipher_firstOrder(std::string message) {
         int length = message.length();
         std::string hiddenText = "";

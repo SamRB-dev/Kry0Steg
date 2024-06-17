@@ -35,6 +35,8 @@ class MyWindow: public Gtk::Window {
         void md5_page_click();
         void sha1_page_click();
         void sha256_page_click();
+        void hex_page_click();
+        void stegoNull_page_click();
 
         // Button operations
         void caesar_encrypt_click();
@@ -47,6 +49,8 @@ class MyWindow: public Gtk::Window {
         void md5_hash_click();
         void sha1_hash_click();
         void sha256_hash_click();
+        void hex_encode_click();
+        void null_decipher_click();
 
         // universals
         void MenuButton_click();
@@ -73,9 +77,11 @@ class MyWindow: public Gtk::Window {
         Gtk::Box atbashCipherPage; // Atbash page
         Gtk::Box affineCipherPage; // Affine
         Gtk::Grid affineGrid;
-        Gtk::Box md5HashPage;
+        Gtk::Box md5HashPage; // Hash pages
         Gtk::Box sha1HashPage;
         Gtk::Box sha256HashPage;
+        Gtk::Box hexEncodingPage; // Encoder page
+        Gtk::Box nullStegoPage; // Stego page
 
         // Labels
         Gtk::Label childBox_1_title; // menu
@@ -99,6 +105,10 @@ class MyWindow: public Gtk::Window {
         Gtk::Label sha1HashPage_Output_Label;
         Gtk::Label sha256HashPage_Input_Label;
         Gtk::Label sha256HashPage_Output_Label;
+        Gtk::Label hexEncodingPage_Input_Label;
+        Gtk::Label hexEncodingPage_Output_Label;
+        Gtk::Label nullStegoPage_Input_Label;
+        Gtk::Label nullStegoPage_Output_Label;
 
         // Buttons
         Gtk::Button caesarCipher; // Section 1
@@ -121,6 +131,8 @@ class MyWindow: public Gtk::Window {
         Gtk::Button Md5HashPage_Hash;
         Gtk::Button Sha1HashPage_Hash;
         Gtk::Button Sha256HashPage_Hash;
+        Gtk::Button HexEncodingPage_Encode;
+        Gtk::Button NullStegoPage_Decipher;
 
         Gtk::Button CaesarCipherPage_MenuButton;
         Gtk::Button Rot13CipherPage_MenuButton;
@@ -129,6 +141,8 @@ class MyWindow: public Gtk::Window {
         Gtk::Button Md5HashPage_MenuButton;
         Gtk::Button Sha1HashPage_MenuButton;
         Gtk::Button Sha256HashPage_MenuButton;
+        Gtk::Button HexEncodingPage_MenuButton;
+        Gtk::Button NullStegoPage_MenuButton;
 
         // Textviews, Entry, SpinButton & buffers
         Gtk::TextView CaesarCipherInputView;
@@ -145,8 +159,15 @@ class MyWindow: public Gtk::Window {
         Gtk::TextView Sha1HashOutputView;
         Gtk::TextView Sha256HashInputView;
         Gtk::TextView Sha256HashOutputView;
+        Gtk::TextView HexEncodingInputView;
+        Gtk::TextView HexEncodingOutputView;
+        Gtk::TextView NullStegoInputView;
+        Gtk::TextView NullStegoOutputView;
+
+        // Smart pointers for buffers 
         Glib::RefPtr<Gtk::TextBuffer> inputBuffer;
         Glib::RefPtr<Gtk::TextBuffer> outputBuffer;
+
         Gtk::SpinButton CaesarCipherKeyInput;
         Gtk::SpinButton AffineCipherKeyInput_1;
         Gtk::SpinButton AffineCipherKeyInput_2;
@@ -233,7 +254,21 @@ MyWindow::MyWindow():
     Sha256HashPage_Hash("Hash"),
     Sha256HashPage_MenuButton("Menu"),
     sha256HashPage_Input_Label("Enter Message for hashing"),
-    sha256HashPage_Output_Label("Generated Output")
+    sha256HashPage_Output_Label("Generated Output"),
+
+    /*Hex Encoding*/
+    hexEncodingPage(Gtk::Orientation::VERTICAL),
+    HexEncodingPage_Encode("Encode"),
+    HexEncodingPage_MenuButton("Menu"),
+    hexEncodingPage_Input_Label("Enter Message"),
+    hexEncodingPage_Output_Label("Generated Output"),
+
+    /*Null cipher page*/
+    nullStegoPage(Gtk::Orientation::VERTICAL),
+    NullStegoPage_Decipher("Decipher"),
+    NullStegoPage_MenuButton("Menu"),
+    nullStegoPage_Input_Label("Enter Message"),
+    nullStegoPage_Output_Label("Generated Output")
     /*Note: In GTK, widgets can be attached to one container at a time which 
     means components from one frame/page/container might not work in another
     container. - https://docs.gtk.org/gtk3/method.Container.add.html*/
@@ -304,6 +339,14 @@ MyWindow::MyWindow():
     sha256HashPage.set_spacing(15);
     sha256HashPage.set_margin(45);
 
+    /*Hexcoding page*/
+    hexEncodingPage.set_spacing(15);
+    hexEncodingPage.set_margin(45);
+
+    /*Null Cipher Page*/
+    nullStegoPage.set_spacing(15);
+    nullStegoPage.set_margin(45);
+
     // Alignemnt 
     mainPageBox.set_halign(Gtk::Align::BASELINE_CENTER);
     mainPageBox.set_valign(Gtk::Align::BASELINE_CENTER);
@@ -355,6 +398,8 @@ MyWindow::MyWindow():
     Md5HashPage_Hash.set_size_request(50, 70);
     Sha1HashPage_Hash.set_size_request(50, 70);
     Sha256HashPage_Hash.set_size_request(50, 70);
+    HexEncodingPage_Encode.set_size_request(50, 70);
+    NullStegoPage_Decipher.set_size_request(50,  70);
 
     // caesarCipher.set_hexpand(false);
     // rot13Cipher.set_hexpand(false);
@@ -389,6 +434,10 @@ MyWindow::MyWindow():
     Sha1HashOutputView.set_buffer(outputBuffer);
     Sha256HashInputView.set_buffer(inputBuffer);
     Sha256HashOutputView.set_buffer(outputBuffer);
+    HexEncodingInputView.set_buffer(inputBuffer);
+    HexEncodingOutputView.set_buffer(outputBuffer);
+    NullStegoInputView.set_buffer(inputBuffer);
+    NullStegoOutputView.set_buffer(outputBuffer);
 
     CaesarCipherInputView.set_size_request(250, 100);
     CaesarCipherOutputView.set_size_request(250, 100);
@@ -404,6 +453,10 @@ MyWindow::MyWindow():
     Sha1HashOutputView.set_size_request(250, 100);
     Sha256HashInputView.set_size_request(250, 100);
     Sha256HashOutputView.set_size_request(250, 100);
+    HexEncodingInputView.set_size_request(250, 100);
+    HexEncodingOutputView.set_size_request(250, 100);
+    NullStegoInputView.set_size_request(250, 100);
+    NullStegoOutputView.set_size_request(250, 100);
 
     // SpinButton
     CaesarCipherKeyInput.set_adjustment(Gtk::Adjustment::create(5,0,25)); 
@@ -474,6 +527,20 @@ MyWindow::MyWindow():
     sha256HashPage.append(sha256HashPage_Output_Label);
     sha256HashPage.append(Sha256HashOutputView);
     sha256HashPage.append(Sha256HashPage_MenuButton);
+    // Hexcoding
+    hexEncodingPage.append(hexEncodingPage_Input_Label);
+    hexEncodingPage.append(HexEncodingInputView);
+    hexEncodingPage.append(HexEncodingPage_Encode);
+    hexEncodingPage.append(hexEncodingPage_Output_Label);
+    hexEncodingPage.append(HexEncodingOutputView);
+    hexEncodingPage.append(HexEncodingPage_MenuButton);
+    // NullStego page
+    nullStegoPage.append(nullStegoPage_Input_Label);
+    nullStegoPage.append(NullStegoInputView);
+    nullStegoPage.append(NullStegoPage_Decipher);
+    nullStegoPage.append(nullStegoPage_Output_Label);
+    nullStegoPage.append(NullStegoOutputView);
+    nullStegoPage.append(NullStegoPage_MenuButton);
 
     // Append child container to main containers
     // mainPageBox.append(childBox_1);
@@ -492,6 +559,8 @@ MyWindow::MyWindow():
     pageStack.add(md5HashPage, "page5", "MD5");
     pageStack.add(sha1HashPage, "page6", "SHA1");
     pageStack.add(sha256HashPage, "page7", "SHA256");
+    pageStack.add(hexEncodingPage, "page8", "Hex Encoding");
+    pageStack.add(nullStegoPage, "page9", "Stego - Null Cipher");
     set_child(mainPageBox);
 
     /* Connecting Signals */ 
@@ -503,6 +572,8 @@ MyWindow::MyWindow():
     md5Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::md5_page_click));
     sha1Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha1_page_click));
     sha256Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha256_page_click));
+    text2Hex.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::hex_page_click));
+    nullCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::stegoNull_page_click));
 
     // Back-2-Menu
     CaesarCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
@@ -512,6 +583,8 @@ MyWindow::MyWindow():
     Md5HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     Sha1HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     Sha256HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    HexEncodingPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    NullStegoPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
 
     // Button press event handling
     CaesarCipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_encrypt_click));
@@ -524,6 +597,8 @@ MyWindow::MyWindow():
     Md5HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::md5_hash_click));
     Sha1HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha1_hash_click));
     Sha256HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha256_hash_click));
+    HexEncodingPage_Encode.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::hex_encode_click));
+    NullStegoPage_Decipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::null_decipher_click));
 }
 
 /* Signal Hanlders */ 
@@ -554,6 +629,14 @@ void MyWindow::sha1_page_click(){
 
 void MyWindow::sha256_page_click(){
     pageStack.set_visible_child("page7");
+}
+
+void MyWindow::hex_page_click(){
+    pageStack.set_visible_child("page8");
+}
+
+void MyWindow::stegoNull_page_click(){
+    pageStack.set_visible_child("page9");
 }
 
 void MyWindow::MenuButton_click(){
@@ -637,6 +720,19 @@ void MyWindow::sha256_hash_click(){
     outputBuffer->set_text(hashText);
 }
 
+void MyWindow::hex_encode_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string encodedText = Encoders::text2hex(inputRawStr);
+    outputBuffer->set_text(encodedText);
+}
+
+void MyWindow::null_decipher_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string decipheredText = SteganoFunctions::stego_nullCipher_firstOrder(inputRawStr);
+    outputBuffer->set_text(decipheredText);
+}
 // Entry Point
 int main(int argc, char *argv[]){
     auto app = Gtk::Application::create("org.gtkmm.kry0steg");
