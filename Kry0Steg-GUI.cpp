@@ -12,10 +12,13 @@
 #include <gtkmm-4.0/gtkmm/textbuffer.h>
 #include <gtkmm-4.0/gtkmm/spinbutton.h>
 #include <string>
-#include <utility>
+// #include <utility>
 
 /* Custom Headers */
 #include "include/GeneralCiphers.h"
+#include "include/HashFunctions.h"
+#include "include/Encoders.h"
+#include "include/SteganoFunctions.h"
 
 class MyWindow: public Gtk::Window {
     public:
@@ -29,6 +32,9 @@ class MyWindow: public Gtk::Window {
         void rot13_page_click();
         void atbash_page_click();
         void affine_page_click();
+        void md5_page_click();
+        void sha1_page_click();
+        void sha256_page_click();
 
         // Button operations
         void caesar_encrypt_click();
@@ -38,6 +44,9 @@ class MyWindow: public Gtk::Window {
         void atbash_magic_click();
         void affine_encrypt_click();
         void affine_decrypt_click();
+        void md5_hash_click();
+        void sha1_hash_click();
+        void sha256_hash_click();
 
         // universals
         void MenuButton_click();
@@ -64,6 +73,9 @@ class MyWindow: public Gtk::Window {
         Gtk::Box atbashCipherPage; // Atbash page
         Gtk::Box affineCipherPage; // Affine
         Gtk::Grid affineGrid;
+        Gtk::Box md5HashPage;
+        Gtk::Box sha1HashPage;
+        Gtk::Box sha256HashPage;
 
         // Labels
         Gtk::Label childBox_1_title; // menu
@@ -81,6 +93,12 @@ class MyWindow: public Gtk::Window {
         Gtk::Label affineCipherPage_Output_Label;
         Gtk::Label affineCipherPage_Key_1_Label;
         Gtk::Label affineCipherPage_Key_2_Label;
+        Gtk::Label md5HashPage_Input_label;
+        Gtk::Label md5HashPage_Output_Label;
+        Gtk::Label sha1HashPage_Input_Label;
+        Gtk::Label sha1HashPage_Output_Label;
+        Gtk::Label sha256HashPage_Input_Label;
+        Gtk::Label sha256HashPage_Output_Label;
 
         // Buttons
         Gtk::Button caesarCipher; // Section 1
@@ -100,10 +118,17 @@ class MyWindow: public Gtk::Window {
         Gtk::Button AtbashMagic;
         Gtk::Button AffineCipherPage_Encrypt;
         Gtk::Button AffineCipherPage_Decrypt;
+        Gtk::Button Md5HashPage_Hash;
+        Gtk::Button Sha1HashPage_Hash;
+        Gtk::Button Sha256HashPage_Hash;
+
         Gtk::Button CaesarCipherPage_MenuButton;
         Gtk::Button Rot13CipherPage_MenuButton;
         Gtk::Button AtbashCipherPage_MenuButton;
         Gtk::Button AffineCipherPage_MenuButton;
+        Gtk::Button Md5HashPage_MenuButton;
+        Gtk::Button Sha1HashPage_MenuButton;
+        Gtk::Button Sha256HashPage_MenuButton;
 
         // Textviews, Entry, SpinButton & buffers
         Gtk::TextView CaesarCipherInputView;
@@ -114,6 +139,12 @@ class MyWindow: public Gtk::Window {
         Gtk::TextView AtbashCIpherOutputView;
         Gtk::TextView AffineCipherInputView;
         Gtk::TextView AffineCipherOutputView;
+        Gtk::TextView Md5HashInputView;
+        Gtk::TextView Md5HashOutputView;
+        Gtk::TextView Sha1HashInputView;
+        Gtk::TextView Sha1HashOutputView;
+        Gtk::TextView Sha256HashInputView;
+        Gtk::TextView Sha256HashOutputView;
         Glib::RefPtr<Gtk::TextBuffer> inputBuffer;
         Glib::RefPtr<Gtk::TextBuffer> outputBuffer;
         Gtk::SpinButton CaesarCipherKeyInput;
@@ -181,17 +212,38 @@ MyWindow::MyWindow():
     affineCipherPage_Output_Label("Generate Output"),
     AffineCipherPage_MenuButton("Menu"),
     affineCipherPage_Key_1_Label("Key A"),
-    affineCipherPage_Key_2_Label("Key B")
+    affineCipherPage_Key_2_Label("Key B"),
+
+    /*MD5 page*/
+    md5HashPage(Gtk::Orientation::VERTICAL),
+    Md5HashPage_Hash("Hash"),
+    Md5HashPage_MenuButton("Menu"),
+    md5HashPage_Input_label("Enter Message for hashing"),
+    md5HashPage_Output_Label("Generated Output"),
+
+    /*SHA1 Page*/
+    sha1HashPage(Gtk::Orientation::VERTICAL),
+    Sha1HashPage_Hash("Hash"),
+    Sha1HashPage_MenuButton("Menu"),
+    sha1HashPage_Input_Label("Enter Message for hashing"),
+    sha1HashPage_Output_Label("Generated Output"),
+
+    /*SHA256 page*/
+    sha256HashPage(Gtk::Orientation::VERTICAL),
+    Sha256HashPage_Hash("Hash"),
+    Sha256HashPage_MenuButton("Menu"),
+    sha256HashPage_Input_Label("Enter Message for hashing"),
+    sha256HashPage_Output_Label("Generated Output")
     /*Note: In GTK, widgets can be attached to one container at a time which 
     means components from one frame/page/container might not work in another
     container. - https://docs.gtk.org/gtk3/method.Container.add.html*/
     {
     set_title("Kry0Steg GUI");
-    set_default_size(600, 600);
+    set_default_size(350, 350);
     set_resizable(false);
 
     // Spacing and margin
-    mainPageBox.set_margin(55);
+    mainPageBox.set_margin(35);
     mainPageBox.set_spacing(15);
 
     /*Main Menu*/
@@ -239,6 +291,18 @@ MyWindow::MyWindow():
     /*Affine Page*/
     affineCipherPage.set_spacing(15);
     affineCipherPage.set_margin(45);
+
+    /*MD5 Page*/
+    md5HashPage.set_spacing(15);
+    md5HashPage.set_margin(45);
+
+    /*SHA1 page*/
+    sha1HashPage.set_spacing(15);
+    sha1HashPage.set_margin(45);
+
+    /*SHA256 page*/
+    sha256HashPage.set_spacing(15);
+    sha256HashPage.set_margin(45);
 
     // Alignemnt 
     mainPageBox.set_halign(Gtk::Align::BASELINE_CENTER);
@@ -288,6 +352,9 @@ MyWindow::MyWindow():
     AffineCipherPage_Decrypt.set_size_request(50, 70);
     CaesarCipherPage_MenuButton.set_size_request(30,30);
     AtbashMagic.set_size_request(50, 70);
+    Md5HashPage_Hash.set_size_request(50, 70);
+    Sha1HashPage_Hash.set_size_request(50, 70);
+    Sha256HashPage_Hash.set_size_request(50, 70);
 
     // caesarCipher.set_hexpand(false);
     // rot13Cipher.set_hexpand(false);
@@ -316,6 +383,12 @@ MyWindow::MyWindow():
     AtbashCIpherOutputView.set_buffer(outputBuffer);
     AffineCipherInputView.set_buffer(inputBuffer);
     AffineCipherOutputView.set_buffer(outputBuffer);
+    Md5HashInputView.set_buffer(inputBuffer);
+    Md5HashOutputView.set_buffer(outputBuffer);
+    Sha1HashInputView.set_buffer(inputBuffer);
+    Sha1HashOutputView.set_buffer(outputBuffer);
+    Sha256HashInputView.set_buffer(inputBuffer);
+    Sha256HashOutputView.set_buffer(outputBuffer);
 
     CaesarCipherInputView.set_size_request(250, 100);
     CaesarCipherOutputView.set_size_request(250, 100);
@@ -325,6 +398,12 @@ MyWindow::MyWindow():
     AtbashCIpherOutputView.set_size_request(250, 100);
     AffineCipherInputView.set_size_request(250, 100);
     AffineCipherOutputView.set_size_request(250,100);
+    Md5HashInputView.set_size_request(250, 100);
+    Md5HashOutputView.set_size_request(250, 100);
+    Sha1HashInputView.set_size_request(250, 100);
+    Sha1HashOutputView.set_size_request(250, 100);
+    Sha256HashInputView.set_size_request(250, 100);
+    Sha256HashOutputView.set_size_request(250, 100);
 
     // SpinButton
     CaesarCipherKeyInput.set_adjustment(Gtk::Adjustment::create(5,0,25)); 
@@ -374,7 +453,27 @@ MyWindow::MyWindow():
     affineCipherPage.append(affineGrid);
     affineCipherPage.append(AffineCipherOutputView);
     affineCipherPage.append(AffineCipherPage_MenuButton);
-
+    // MD5
+    md5HashPage.append(md5HashPage_Input_label);
+    md5HashPage.append(Md5HashInputView);
+    md5HashPage.append(Md5HashPage_Hash);
+    md5HashPage.append(md5HashPage_Output_Label);
+    md5HashPage.append(Md5HashOutputView);
+    md5HashPage.append(Md5HashPage_MenuButton);
+    // SHA1
+    sha1HashPage.append(sha1HashPage_Input_Label);
+    sha1HashPage.append(Sha1HashInputView);
+    sha1HashPage.append(Sha1HashPage_Hash);
+    sha1HashPage.append(sha1HashPage_Output_Label);
+    sha1HashPage.append(Sha1HashOutputView);
+    sha1HashPage.append(Sha1HashPage_MenuButton);
+    // SHA256
+    sha256HashPage.append(sha256HashPage_Input_Label);
+    sha256HashPage.append(Sha256HashInputView);
+    sha256HashPage.append(Sha256HashPage_Hash);
+    sha256HashPage.append(sha256HashPage_Output_Label);
+    sha256HashPage.append(Sha256HashOutputView);
+    sha256HashPage.append(Sha256HashPage_MenuButton);
 
     // Append child container to main containers
     // mainPageBox.append(childBox_1);
@@ -390,6 +489,9 @@ MyWindow::MyWindow():
     pageStack.add(rot13CipherPage, "page2", "ROT13");
     pageStack.add(atbashCipherPage, "page3", "Atbash");
     pageStack.add(affineCipherPage, "page4", "Affine");
+    pageStack.add(md5HashPage, "page5", "MD5");
+    pageStack.add(sha1HashPage, "page6", "SHA1");
+    pageStack.add(sha256HashPage, "page7", "SHA256");
     set_child(mainPageBox);
 
     /* Connecting Signals */ 
@@ -398,11 +500,19 @@ MyWindow::MyWindow():
     rot13Cipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::rot13_page_click));
     atbashCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::atbash_page_click));
     affineCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_page_click));
+    md5Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::md5_page_click));
+    sha1Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha1_page_click));
+    sha256Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha256_page_click));
 
+    // Back-2-Menu
     CaesarCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     Rot13CipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     AtbashCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     AffineCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    Md5HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    Sha1HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+    Sha256HashPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
+
     // Button press event handling
     CaesarCipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_encrypt_click));
     CaesarCipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::caesar_decrypt_click));
@@ -411,6 +521,9 @@ MyWindow::MyWindow():
     AtbashMagic.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::atbash_magic_click));
     AffineCipherPage_Encrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_encrypt_click));
     AffineCipherPage_Decrypt.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::affine_decrypt_click));
+    Md5HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::md5_hash_click));
+    Sha1HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha1_hash_click));
+    Sha256HashPage_Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha256_hash_click));
 }
 
 /* Signal Hanlders */ 
@@ -429,6 +542,18 @@ void MyWindow::atbash_page_click(){
 
 void MyWindow::affine_page_click(){
     pageStack.set_visible_child("page4");
+}
+
+void MyWindow::md5_page_click(){
+    pageStack.set_visible_child("page5");
+}
+
+void MyWindow::sha1_page_click(){
+    pageStack.set_visible_child("page6");
+}
+
+void MyWindow::sha256_page_click(){
+    pageStack.set_visible_child("page7");
 }
 
 void MyWindow::MenuButton_click(){
@@ -490,6 +615,28 @@ void MyWindow::affine_decrypt_click(){
     std::string plainText = GeneralCiphers::AffineCipherDecrypt(inputRawStr, cipherKeyA, cipherKeyB);
     outputBuffer->set_text(plainText);
 }
+
+void MyWindow::md5_hash_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string hashText = HashFunctions::hash_MD5(inputRawStr);
+    outputBuffer->set_text(hashText);
+}
+
+void MyWindow::sha1_hash_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string hashText = HashFunctions::hash_SHA1(inputRawStr);
+    outputBuffer->set_text(hashText);
+}
+
+void MyWindow::sha256_hash_click(){
+    Glib::ustring inputStr = inputBuffer->get_text();
+    std::string inputRawStr = inputStr.raw();
+    std::string hashText = HashFunctions::hash_SHA256(inputRawStr);
+    outputBuffer->set_text(hashText);
+}
+
 // Entry Point
 int main(int argc, char *argv[]){
     auto app = Gtk::Application::create("org.gtkmm.kry0steg");

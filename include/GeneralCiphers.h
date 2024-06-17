@@ -133,6 +133,6 @@ namespace GeneralCiphers {
             }
             return plainText;
         } else
-            return "Operation Not Possible";
+            return "Decryption Error! Keys are not coprime!";
     }
 }
