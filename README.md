@@ -51,7 +51,7 @@ make
 - pacman -S mingw-w64-x86_64-{gtkmm-4.0,openssl}
 
 # Project Demo
-[![Demo](https://img.youtube.com/vi/0d7jhwontxHxUZOG/0.jpg)](https://www.youtube.com/watch?v=0d7jhwontxHxUZOG)
+[Demo](https://youtu.be/slqB0bqXF3I?si=Yw37n8IDRk61e0xV)
 
 # Reference
 - [Gtkmm Examples](https://github.com/gammasoft71/Examples_Gtkmm)
