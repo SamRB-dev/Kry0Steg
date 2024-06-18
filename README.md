@@ -1,7 +1,6 @@
 # Original Repo: [SamRB-dev/Kry0Steg](https://github.com/SamRB-dev/Kry0Steg)
 # Current Features
  - General Symmetric Ciphers
-   - Substituion ciphers
     - Ceasar cipher
     - Rot13 - done
     - Atbash Cipher 
