@@ -116,7 +116,7 @@ namespace GeneralCiphers {
 
     std::string AffineCipherDecrypt(std::string cipherText, int key_1 = 5, int key_2 = 8){
         /*
-        @params: string plainText, default value Hello,World (C++ feature)
+        @params: string plainText,
                 int key 1, default value 5
                 int key 2, default value 8
         @number_of_parameters: 3
