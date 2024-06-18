@@ -51,7 +51,7 @@ make
 - pacman -S mingw-w64-x86_64-{gtkmm-4.0,openssl}
 
 # Project Demo
-<iframe width="560" height="315" src="https://www.youtube.com/embed/slqB0bqXF3I?si=UYPIqcPH-Ms8qbxH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Demo](https://img.youtube.com/vi/lZUfNQWKwerwJcGD/0.jpg)](https://www.youtube.com/watch?v=lZUfNQWKwerwJcGD)
 
 # Reference
 - [Gtkmm Examples](https://github.com/gammasoft71/Examples_Gtkmm)
