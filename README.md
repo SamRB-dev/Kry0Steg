@@ -16,9 +16,13 @@
 
 - Steganography
    - Null cipher (Text steg)
-   - Image Steg (Coming soon)
 
 # Dependencies
+### Dev tools
+#### Manjaro/Arch Installation
+```bash 
+sudo pacman -Syu base-devel
+```
 ### gtkmm-4.0
 #### Manjaro/Arch Installation
 ```bash
