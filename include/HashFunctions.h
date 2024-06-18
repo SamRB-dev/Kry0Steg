@@ -5,7 +5,7 @@
                         with different libraries.
 * @Version            : 1.0
 * @Github             : 
-* @License            : CC-BY-NC        
+* @License            : CC-BY-NC-SA     
 /******************************************************************/ 
 
 // Standard Headers
@@ -23,6 +23,13 @@
 namespace HashFunctions {
     /* Core Functions */
     std::string hash_MD5(std::string message = "Hello,World"){
+        /*
+        @params: string message
+        @number_of_parameters: 1
+        @return_type: string
+        @returns: md5 hash string.
+        @author: Turja Barua & SamRB-dev
+        */
         std::string generated_hash = "";
         unsigned char md5Hash[MD5_DIGEST_LENGTH];
         MD5_CTX md5;
@@ -38,6 +45,13 @@ namespace HashFunctions {
     }
 
     std::string hash_SHA1(std::string message = "Hello,World"){
+        /*
+        @params: string message
+        @number_of_parameters: 1
+        @return_type: string
+        @returns: sha1 hash string.
+        @author: Turja Barua & SamRB-dev
+        */
         std::string generated_hash = "";
         unsigned char sha1Hash[SHA_DIGEST_LENGTH];
         SHA_CTX sha1;
@@ -53,6 +67,13 @@ namespace HashFunctions {
     }
 
     std::string hash_SHA256(std::string message = "Hello,World"){
+        /*
+        @params: string message
+        @number_of_parameters: 1
+        @return_type: string
+        @returns: sha256 hash string.
+        @author: Turja Barua & SamRB-dev
+        */
         std::string generated_hash = "";
         unsigned char sha256Hash[SHA256_DIGEST_LENGTH];
         SHA256_CTX sha256;

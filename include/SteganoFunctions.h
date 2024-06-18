@@ -5,6 +5,13 @@
 /* ToDo > Second approach: Use regex to find index of all space and extract data from first order. */
 namespace SteganoFunctions {
     std::string stego_nullCipher_firstOrder(std::string message) {
+        /*
+        @params: string message
+        @number_of_parameters: 1
+        @return_type: string
+        @returns: md5 hash string.
+        @author: SamRB-dev
+        */
         int length = message.length();
         std::string hiddenText = "";
         for(int idx = 0; idx < length; idx++){
