@@ -6,7 +6,7 @@
 * @Version            : 1.0
 * @Github             : https://github.com/SamRB-dev/Kry0Steg/blob/main/Headers/GeneralCiphers.h
 * @License            : BSD-3-Clause         
-/******************************************************************/ 
+******************************************************************/ 
 
 // Header files
 #include <stdio.h>
