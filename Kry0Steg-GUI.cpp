@@ -51,6 +51,7 @@ class MyWindow: public Gtk::Window {
         void sha256_hash_click();
         void hex_encode_click();
         void null_decipher_click();
+        void exit_event_click();
 
         // universals
         void MenuButton_click();
@@ -120,6 +121,7 @@ class MyWindow: public Gtk::Window {
         Gtk::Button sha256Hash;
         Gtk::Button text2Hex; // s3
         Gtk::Button nullCipher; // s4
+        Gtk::Button exitButton; 
 
         Gtk::Button CaesarCipherPage_Encrypt;
         Gtk::Button CaesarCipherPage_Decrypt;
@@ -175,6 +177,7 @@ class MyWindow: public Gtk::Window {
 
 MyWindow::MyWindow(): 
     mainPageBox(Gtk::Orientation::VERTICAL), 
+    exitButton("Exit"),
 
     /*Main Menu*/
     mainMenu(Gtk::Orientation::VERTICAL),
@@ -549,6 +552,7 @@ MyWindow::MyWindow():
     mainMenu.append(childBox_2);
     mainMenu.append(childBox_3);
     mainMenu.append(childBox_4);
+    mainMenu.append(exitButton);
     mainPageBox.append(pageStack);
     mainPageBox.append(stackSwitch);
     pageStack.add(mainMenu, "menu", "Menu");
@@ -574,7 +578,7 @@ MyWindow::MyWindow():
     sha256Hash.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::sha256_page_click));
     text2Hex.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::hex_page_click));
     nullCipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::stegoNull_page_click));
-
+    exitButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::exit_event_click));
     // Back-2-Menu
     CaesarCipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
     Rot13CipherPage_MenuButton.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::MenuButton_click));
@@ -732,6 +736,10 @@ void MyWindow::null_decipher_click(){
     std::string inputRawStr = inputStr.raw();
     std::string decipheredText = SteganoFunctions::stego_nullCipher_firstOrder(inputRawStr);
     outputBuffer->set_text(decipheredText);
+}
+
+void MyWindow::exit_event_click(){
+    hide();
 }
 // Entry Point
 int main(int argc, char *argv[]){
