@@ -5,7 +5,7 @@
                         i.e text to hex.
 * @Version            : 1.0
 * @Github             : 
-* @License            : CC-BY-NC-SA    
+* @License            : BSD-3-Clause    
 /******************************************************************/ 
 
 // Header files

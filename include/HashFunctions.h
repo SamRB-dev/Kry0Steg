@@ -5,7 +5,7 @@
                         with different libraries.
 * @Version            : 1.0
 * @Github             : 
-* @License            : CC-BY-NC-SA     
+* @License            : BSD-3-Clause      
 /******************************************************************/ 
 
 // Standard Headers

@@ -5,7 +5,7 @@
                         to handle general cryptographic ciphers. 
 * @Version            : 1.0
 * @Github             : https://github.com/SamRB-dev/Kry0Steg/blob/main/Headers/GeneralCiphers.h
-* @License            : CC-BY-NC-SA        
+* @License            : BSD-3-Clause         
 /******************************************************************/ 
 
 // Header files

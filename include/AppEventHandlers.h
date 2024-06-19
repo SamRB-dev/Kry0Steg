@@ -5,7 +5,7 @@
                         application class.
 * @Version            : 1.0
 * @Github             : 
-* @License            : CC-BY-NC-SA     
+* @License            : BSD-3-Clause    
 * @Reference          : https://gnome.pages.gitlab.gnome.org/gtkmm-documentation/sec-helloworld.html
 /******************************************************************/ 
 
