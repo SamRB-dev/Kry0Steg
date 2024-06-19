@@ -1,5 +1,5 @@
 # Original Repo: [SamRB-dev/Kry0Steg](https://github.com/SamRB-dev/Kry0Steg)
-[License](https://img.shields.io/badge/License-BSD%203%20Clause-blue.svg)
+![License](https://img.shields.io/badge/License-BSD%203%20Clause-blue.svg)
 
 **Kry0Steg** is a simple cryptographic toolkit providing classical ciphers, hashing, encoding and steganography tools with graphical user interface written with C++ and GTK C++ binding called GTKmm. Our project was heavily inspired by the tools like [Cryptii](https://cryptii.com/), [CyberChef](https://gchq.github.io/CyberChef/) and aims to provide the tools natively without requiring internet connection.
 
