@@ -1,3 +1,14 @@
+/*******************************************************************
+* @Copyright          : Copyright 2024, SamRB-dev
+* @File Name          : ApplicationHeader.h
+* @Description        : An important header that handles events for
+                        application class.
+* @Version            : 1.0
+* @Github             : 
+* @License            : CC-BY-NC-SA     
+* @Reference          : https://gnome.pages.gitlab.gnome.org/gtkmm-documentation/sec-helloworld.html
+/******************************************************************/ 
+
 /* Custom Headers */
 #include "ApplicationHeader.h"
 

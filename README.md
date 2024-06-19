@@ -1,5 +1,7 @@
 # Original Repo: [SamRB-dev/Kry0Steg](https://github.com/SamRB-dev/Kry0Steg)
-# Current Features
+**Kry0Steg** is a simple cryptographic toolkit providing classical ciphers, hashing, encoding and steganography tools with graphical user interface written with C++ and GTK C++ binding called GTKmm. Our project was heavily inspired by the tools like [Cryptii](https://cryptii.com/), [CyberChef](https://gchq.github.io/CyberChef/) and aims to provide the tools natively without requiring internet connection.
+
+## Current Features
  - General Symmetric Ciphers
     - Ceasar cipher
     - Rot13 - done
@@ -16,7 +18,7 @@
 - Steganography
    - Null cipher (Text steg)
 
-# Dependencies
+## Dependencies
 ### Dev tools
 #### Manjaro/Arch Installation
 ```bash 
@@ -33,8 +35,8 @@ sudo pacman -Syu gtkmm-4.0
 sudo pacman -Syu openssl
 ```
 
-# Linux compilation with gcc
-## With Gtkmm 
+## Linux compilation with gcc
+### With Gtkmm 
 ```bash
 g++ Kry0Steg-GUI.cpp -o Kry0Steg `pkg-config --cflags --libs gtkmm-4.0` -l ssl -l crypto
 ```
@@ -44,15 +46,15 @@ or execute make file
 make
 ```
 
-# Cross Compilation - mingw-w64 - TBA
-## MSYS2
+## Cross Compilation - mingw-w64 - TBA
+### MSYS2
 - pacman -Syuu
 - pacman -S mingw-w64-x86_64-toolchain base-devel
 - pacman -S mingw-w64-x86_64-{gtkmm-4.0,openssl}
 
-# Project Demo
+## Project Demo
 [Demo](https://youtu.be/slqB0bqXF3I?si=Yw37n8IDRk61e0xV)
 
-# Reference
+## Reference
 - [Gtkmm Examples](https://github.com/gammasoft71/Examples_Gtkmm)
 - [Programming with gtkmm 4](https://gnome.pages.gitlab.gnome.org/gtkmm-documentation/index.html)
