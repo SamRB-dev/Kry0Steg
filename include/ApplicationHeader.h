@@ -7,7 +7,7 @@
 * @Github             : 
 * @License            : BSD-3-Clause     
 * @Reference          : https://gnome.pages.gitlab.gnome.org/gtkmm-documentation/sec-helloworld.html
-/******************************************************************/ 
+******************************************************************/ 
 
 #include <gtkmm-4.0/gtkmm/grid.h>
 #include <gtkmm-4.0/gtkmm/application.h>
