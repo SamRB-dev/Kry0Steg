@@ -1,179 +1,9 @@
-#include <gtkmm-4.0/gtkmm/grid.h>
-#include <gtkmm-4.0/gtkmm/application.h>
-#include <gtkmm-4.0/gtkmm/box.h>
-#include <gtkmm-4.0/gtkmm/button.h>
-#include <gtkmm-4.0/gtkmm/enums.h>
-#include <gtkmm-4.0/gtkmm/grid.h>
-#include <gtkmm-4.0/gtkmm/label.h>
-#include <gtkmm-4.0/gtkmm/window.h>
-#include <gtkmm-4.0/gtkmm/stack.h>
-#include <gtkmm-4.0/gtkmm/stackswitcher.h>
-#include <gtkmm-4.0/gtkmm/textview.h>
-#include <gtkmm-4.0/gtkmm/textbuffer.h>
-#include <gtkmm-4.0/gtkmm/spinbutton.h>
-#include <string>
-// #include <utility>
-
 /* Custom Headers */
 #include "include/GeneralCiphers.h"
 #include "include/HashFunctions.h"
 #include "include/Encoders.h"
 #include "include/SteganoFunctions.h"
-
-class MyWindow: public Gtk::Window {
-    public:
-        // Main window
-        MyWindow();
-
-    protected:
-        /*Functions for handling signals*/
-        // page functions
-        void caesar_page_click();
-        void rot13_page_click();
-        void atbash_page_click();
-        void affine_page_click();
-        void md5_page_click();
-        void sha1_page_click();
-        void sha256_page_click();
-        void hex_page_click();
-        void stegoNull_page_click();
-
-        // Button operations
-        void caesar_encrypt_click();
-        void caesar_decrypt_click();
-        void rot13_encrypt_click();
-        void rot13_decrypt_click();
-        void atbash_magic_click();
-        void affine_encrypt_click();
-        void affine_decrypt_click();
-        void md5_hash_click();
-        void sha1_hash_click();
-        void sha256_hash_click();
-        void hex_encode_click();
-        void null_decipher_click();
-        void exit_event_click();
-
-        // universals
-        void MenuButton_click();
-
-        /* Widgets */
-        // Box & grid
-        Gtk::Box mainPageBox; // Main Frame
-        Gtk::Stack pageStack;
-        Gtk::StackSwitcher stackSwitch;
-
-        Gtk::Box mainMenu; // Main Menu
-        Gtk::Box childBox_1; // Section 1
-        Gtk::Grid grid;
-        Gtk::Box childBox_2; // Section 2
-        Gtk::Grid grid_2;
-        Gtk::Box childBox_3; // Section 3
-        Gtk::Grid grid_3;
-        Gtk::Box childBox_4; // Section 4
-        Gtk::Grid grid_4;
-        Gtk::Box caesarCipherPage; // Cipher Page with I/O
-        Gtk::Grid caesarGrid;
-        Gtk::Box rot13CipherPage; // ROT13 page
-        Gtk::Grid rot13Grid;
-        Gtk::Box atbashCipherPage; // Atbash page
-        Gtk::Box affineCipherPage; // Affine
-        Gtk::Grid affineGrid;
-        Gtk::Box md5HashPage; // Hash pages
-        Gtk::Box sha1HashPage;
-        Gtk::Box sha256HashPage;
-        Gtk::Box hexEncodingPage; // Encoder page
-        Gtk::Box nullStegoPage; // Stego page
-
-        // Labels
-        Gtk::Label childBox_1_title; // menu
-        Gtk::Label childBox_2_title;
-        Gtk::Label childBox_3_title;
-        Gtk::Label childBox_4_title;
-        Gtk::Label caesarCipherPage_Input_Label; // Caesar page
-        Gtk::Label caesarCipherPage_Output_Label;
-        Gtk::Label caesarCipherPage_Key_Label;
-        Gtk::Label rot13CipherPage_Input_Label; // rot13 page
-        Gtk::Label rot13CipherPage_Output_Label;
-        Gtk::Label atbashCipherPage_Input_Label; // Atbash
-        Gtk::Label atbashCipherPage_Output_Label;
-        Gtk::Label affineCipherPage_Input_Label; // Affine
-        Gtk::Label affineCipherPage_Output_Label;
-        Gtk::Label affineCipherPage_Key_1_Label;
-        Gtk::Label affineCipherPage_Key_2_Label;
-        Gtk::Label md5HashPage_Input_label;
-        Gtk::Label md5HashPage_Output_Label;
-        Gtk::Label sha1HashPage_Input_Label;
-        Gtk::Label sha1HashPage_Output_Label;
-        Gtk::Label sha256HashPage_Input_Label;
-        Gtk::Label sha256HashPage_Output_Label;
-        Gtk::Label hexEncodingPage_Input_Label;
-        Gtk::Label hexEncodingPage_Output_Label;
-        Gtk::Label nullStegoPage_Input_Label;
-        Gtk::Label nullStegoPage_Output_Label;
-
-        // Buttons
-        Gtk::Button caesarCipher; // Section 1
-        Gtk::Button rot13Cipher;
-        Gtk::Button atbashCipher;
-        Gtk::Button affineCipher;
-        Gtk::Button md5Hash; // s2
-        Gtk::Button sha1Hash;
-        Gtk::Button sha256Hash;
-        Gtk::Button text2Hex; // s3
-        Gtk::Button nullCipher; // s4
-        Gtk::Button exitButton; 
-
-        Gtk::Button CaesarCipherPage_Encrypt;
-        Gtk::Button CaesarCipherPage_Decrypt;
-        Gtk::Button Rot13CipherPage_Encrypt;
-        Gtk::Button Rot13CipherPage_Decrypt;
-        Gtk::Button AtbashMagic;
-        Gtk::Button AffineCipherPage_Encrypt;
-        Gtk::Button AffineCipherPage_Decrypt;
-        Gtk::Button Md5HashPage_Hash;
-        Gtk::Button Sha1HashPage_Hash;
-        Gtk::Button Sha256HashPage_Hash;
-        Gtk::Button HexEncodingPage_Encode;
-        Gtk::Button NullStegoPage_Decipher;
-
-        Gtk::Button CaesarCipherPage_MenuButton;
-        Gtk::Button Rot13CipherPage_MenuButton;
-        Gtk::Button AtbashCipherPage_MenuButton;
-        Gtk::Button AffineCipherPage_MenuButton;
-        Gtk::Button Md5HashPage_MenuButton;
-        Gtk::Button Sha1HashPage_MenuButton;
-        Gtk::Button Sha256HashPage_MenuButton;
-        Gtk::Button HexEncodingPage_MenuButton;
-        Gtk::Button NullStegoPage_MenuButton;
-
-        // Textviews, Entry, SpinButton & buffers
-        Gtk::TextView CaesarCipherInputView;
-        Gtk::TextView CaesarCipherOutputView;
-        Gtk::TextView Rot13CipherInputView;
-        Gtk::TextView Rot13CipherOutputView;
-        Gtk::TextView AtbashCipherInputView;
-        Gtk::TextView AtbashCIpherOutputView;
-        Gtk::TextView AffineCipherInputView;
-        Gtk::TextView AffineCipherOutputView;
-        Gtk::TextView Md5HashInputView;
-        Gtk::TextView Md5HashOutputView;
-        Gtk::TextView Sha1HashInputView;
-        Gtk::TextView Sha1HashOutputView;
-        Gtk::TextView Sha256HashInputView;
-        Gtk::TextView Sha256HashOutputView;
-        Gtk::TextView HexEncodingInputView;
-        Gtk::TextView HexEncodingOutputView;
-        Gtk::TextView NullStegoInputView;
-        Gtk::TextView NullStegoOutputView;
-
-        // Smart pointers for buffers 
-        Glib::RefPtr<Gtk::TextBuffer> inputBuffer;
-        Glib::RefPtr<Gtk::TextBuffer> outputBuffer;
-
-        Gtk::SpinButton CaesarCipherKeyInput;
-        Gtk::SpinButton AffineCipherKeyInput_1;
-        Gtk::SpinButton AffineCipherKeyInput_2;
-};
+#include "include/AppEventHandlers.h"
 
 MyWindow::MyWindow(): 
     mainPageBox(Gtk::Orientation::VERTICAL), 
@@ -420,7 +250,7 @@ MyWindow::MyWindow():
     sha1Hash.set_vexpand(false);
     sha256Hash.set_vexpand(false);
 
-    // Textviews
+    // Textviews & Text wraps
     inputBuffer = Gtk::TextBuffer::create();
     outputBuffer = Gtk::TextBuffer::create();
     CaesarCipherInputView.set_buffer(inputBuffer);
@@ -460,6 +290,25 @@ MyWindow::MyWindow():
     HexEncodingOutputView.set_size_request(250, 100);
     NullStegoInputView.set_size_request(250, 100);
     NullStegoOutputView.set_size_request(250, 100);
+
+    CaesarCipherInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    CaesarCipherOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    Rot13CipherInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    Rot13CipherOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    AtbashCipherInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    AtbashCIpherOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    AffineCipherInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    AffineCipherOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    Md5HashInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    Md5HashOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    Sha1HashInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    Sha1HashOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    Sha256HashInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    Sha256HashOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    HexEncodingInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    HexEncodingOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
+    NullStegoInputView.set_wrap_mode(Gtk::WrapMode::WORD);
+    NullStegoOutputView.set_wrap_mode(Gtk::WrapMode::WORD_CHAR);
 
     // SpinButton
     CaesarCipherKeyInput.set_adjustment(Gtk::Adjustment::create(5,0,25)); 
@@ -605,142 +454,6 @@ MyWindow::MyWindow():
     NullStegoPage_Decipher.signal_clicked().connect(sigc::mem_fun(*this, &MyWindow::null_decipher_click));
 }
 
-/* Signal Hanlders */ 
-// Page Switchers
-void MyWindow::caesar_page_click(){
-    pageStack.set_visible_child("page1");
-}
-
-void MyWindow::rot13_page_click(){
-    pageStack.set_visible_child("page2");
-}
-
-void MyWindow::atbash_page_click(){
-    pageStack.set_visible_child("page3");
-}
-
-void MyWindow::affine_page_click(){
-    pageStack.set_visible_child("page4");
-}
-
-void MyWindow::md5_page_click(){
-    pageStack.set_visible_child("page5");
-}
-
-void MyWindow::sha1_page_click(){
-    pageStack.set_visible_child("page6");
-}
-
-void MyWindow::sha256_page_click(){
-    pageStack.set_visible_child("page7");
-}
-
-void MyWindow::hex_page_click(){
-    pageStack.set_visible_child("page8");
-}
-
-void MyWindow::stegoNull_page_click(){
-    pageStack.set_visible_child("page9");
-}
-
-void MyWindow::MenuButton_click(){
-    pageStack.set_visible_child("menu");
-}
-
-// Operations
-void MyWindow::caesar_encrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    int cipherKey = CaesarCipherKeyInput.get_value_as_int(); // For SpinButton 
-    std::string cipheredText = GeneralCiphers::caesarCipher(inputRawStr, cipherKey, 'e');
-    outputBuffer->set_text(cipheredText);
-}
-
-void MyWindow::caesar_decrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    int cipherKey = CaesarCipherKeyInput.get_value_as_int(); // Ref: Line 224
-    std::string plainText = GeneralCiphers::caesarCipher(inputRawStr, cipherKey, 'd');
-    outputBuffer->set_text(plainText);
-}
-
-void MyWindow::rot13_encrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string cipherText = GeneralCiphers::caesarCipher(inputRawStr, 13, 'e');
-    outputBuffer->set_text(cipherText);
-}
-
-void MyWindow::rot13_decrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string plainText = GeneralCiphers::caesarCipher(inputRawStr, 13, 'd');
-    outputBuffer->set_text(plainText);
-}
-
-void MyWindow::atbash_magic_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string magicText = GeneralCiphers::atbashCipher(inputRawStr);
-    outputBuffer->set_text(magicText);
-}
-
-void MyWindow::affine_encrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    int cipherKeyA = AffineCipherKeyInput_1.get_value_as_int();
-    int cipherKeyB = AffineCipherKeyInput_2.get_value_as_int();
-    std::string cipherText = GeneralCiphers::AffineCipherEncrypt(inputRawStr, cipherKeyA, cipherKeyB);
-    outputBuffer->set_text(cipherText);
-}
-
-void MyWindow::affine_decrypt_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    int cipherKeyA = AffineCipherKeyInput_1.get_value_as_int();
-    int cipherKeyB = AffineCipherKeyInput_2.get_value_as_int();
-    std::string plainText = GeneralCiphers::AffineCipherDecrypt(inputRawStr, cipherKeyA, cipherKeyB);
-    outputBuffer->set_text(plainText);
-}
-
-void MyWindow::md5_hash_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string hashText = HashFunctions::hash_MD5(inputRawStr);
-    outputBuffer->set_text(hashText);
-}
-
-void MyWindow::sha1_hash_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string hashText = HashFunctions::hash_SHA1(inputRawStr);
-    outputBuffer->set_text(hashText);
-}
-
-void MyWindow::sha256_hash_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string hashText = HashFunctions::hash_SHA256(inputRawStr);
-    outputBuffer->set_text(hashText);
-}
-
-void MyWindow::hex_encode_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string encodedText = Encoders::text2hex(inputRawStr);
-    outputBuffer->set_text(encodedText);
-}
-
-void MyWindow::null_decipher_click(){
-    Glib::ustring inputStr = inputBuffer->get_text();
-    std::string inputRawStr = inputStr.raw();
-    std::string decipheredText = SteganoFunctions::stego_nullCipher_firstOrder(inputRawStr);
-    outputBuffer->set_text(decipheredText);
-}
-
-void MyWindow::exit_event_click(){
-    hide();
-}
 // Entry Point
 int main(int argc, char *argv[]){
     auto app = Gtk::Application::create("org.gtkmm.kry0steg");

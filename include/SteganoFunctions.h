@@ -1,3 +1,14 @@
+/*******************************************************************
+* @Copyright          : Copyright 2024, SamRB-dev
+* @File Name          : SteganoFunctions.h
+* @Description        : Simple Header for containing functions for 
+                        steganography.
+* @Version            : 1.0
+* @Github             : 
+* @License            : CC-BY-NC-SA     
+/******************************************************************/ 
+
+// Header files
 #include <stdio.h>
 #include <ctype.h>
 #include <string>
