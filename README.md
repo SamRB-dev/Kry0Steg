@@ -6,9 +6,9 @@
 ## Current Features
  - General Symmetric Ciphers
     - Ceasar cipher
-    - Rot13 - done
-    - Atbash Cipher 
-    - Affine - Done
+    - Rot13
+    - Atbash 
+    - Affine 
 
 - Encoders, Type: Header
    - text => hex
